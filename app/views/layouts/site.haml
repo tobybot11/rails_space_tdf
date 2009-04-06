@@ -4,4 +4,9 @@
     %title
       = @title
   %body
+    = link_to_unless_current 'Home', :action => 'index'
+    |
+    = link_to_unless_current 'About Us', :action => 'about'
+    |
+    = link_to_unless_current 'Help', :action => 'help'
     = @content_for_layout
