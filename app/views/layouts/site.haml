@@ -3,10 +3,15 @@
   %head
     %title
       = @title
+      = stylesheet_link_tag "site"
   %body
-    = link_to_unless_current 'Home', :action => 'index'
-    |
-    = link_to_unless_current 'About Us', :action => 'about'
-    |
-    = link_to_unless_current 'Help', :action => 'help'
-    = @content_for_layout
+    #whole_page
+      #header RailsSpace
+      #nav
+        = link_to_unless_current 'Home', :action => 'index'
+        |
+        = link_to_unless_current 'About Us', :action => 'about'
+        |
+        = link_to_unless_current 'Help', :action => 'help'
+      #content
+        = @content_for_layout
