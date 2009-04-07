@@ -13,7 +13,6 @@ class User < ActiveRecord::Base
   validates_length_of     :screen_name, :within => SCREEN_NAME_RANGE
   validates_length_of     :password,    :within => PASSWORD_RANGE
   validates_length_of     :email,       :maximum => EMAIL_MAX_LENGTH
-  validates_presence_of   :email
   
   def validate
     errors.add(:email, "must be valid at symbol.") unless email.include? ("@")
