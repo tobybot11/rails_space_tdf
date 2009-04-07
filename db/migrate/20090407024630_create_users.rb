@@ -4,7 +4,7 @@ class CreateUsers < ActiveRecord::Migration
       t.column :screen_name,  :string
       t.column :email,        :string
       t.column :password,     :string
-      t.timestamps
+      t.timestamps  
     end
   end
 
