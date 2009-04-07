@@ -14,10 +14,12 @@ class User < ActiveRecord::Base
   validates_length_of     :password,    :within => PASSWORD_RANGE
   validates_length_of     :email,       :maximum => EMAIL_MAX_LENGTH
   
-  def validate
-    errors.add(:email, "must be valid at symbol.") unless email.include? ("@")
-    if screen_name.include?(" ")
-      errors.add(:screen_name, "cannot include spaces.")
-    end
-  end
+  validates_format_of :screen_name,
+                      :with => /^[A-Z0-9_]*$/i,
+                      :message => "must contain only letters, " +
+                                  "numbers, and underscores"
+                                  
+  validates_format_of :email,
+                      :with => /^[A-Z0-9._%-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i,
+                      :message => 'must be a valid email address'
 end
