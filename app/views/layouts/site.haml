@@ -15,5 +15,6 @@
         = link_to_unless_current 'Help', :action => 'help'
       #content
         = @content_for_layout
-        - if ENV["RAILS_ENV"] == "development"
-          = debug(params)
+        
+      - if ENV["RAILS_ENV"] == "development"
+        = debug(params)

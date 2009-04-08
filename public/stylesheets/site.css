@@ -87,3 +87,12 @@ label {
 .submit {
   margin-left: 15em;
 }
+
+/* Debug Style */
+.debug_dump {
+  text-align: left;
+  border-top: 1px dashed black;
+  background: ccc;
+  margin: 0;
+  padding: 0.5em;
+}
