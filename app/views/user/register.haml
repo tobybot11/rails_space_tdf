@@ -5,19 +5,19 @@
     
     .form_row
       %label{ 'for' => "screen_name"} Screen name:
-      = form.text_field :screen_name, :size => 20, :maxlength => 40
+      = form.text_field :screen_name, :size => User::SCREEN_NAME_SIZE, :maxlength => User::SCREEN_NAME_MAX_LENGTH
       %br/
     
     .form_row
       %label{ 'for' => "email"} Email:
-      = form.text_field :email, :size => 30, :maxlength => 50
+      = form.text_field :email, :size => User::EMAIL_SIZE, :maxlength => User::EMAIL_MAX_LENGTH
       %br/
     
     .form_row
       %label{ 'for' => "password"} Password:
-      = form.password_field :password, :size => 10, :maxlength => 40
+      = form.password_field :password, :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH
       %br/
     
     .form_row
       = submit_tag "Register!", :class => "submit"
-    
+      
