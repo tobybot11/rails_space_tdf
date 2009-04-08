@@ -1,0 +1,19 @@
+%h2 Register
+- form_for :user do |form|
+  %fieldset
+    %legend Enter Your Details
+    
+    %label{ 'for' => "screen_name"} Screen name:
+    = form.text_field :screen_name
+    %br/
+    
+    %label{ 'for' => "email"} Email:
+    = form.text_field :email
+    %br/
+    
+    %label{ 'for' => "password"} Password:
+    = form.password_field :password
+    %br/
+    
+    = submit_tag "Register!", :class => "submit"
+    
