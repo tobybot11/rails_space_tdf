@@ -8,16 +8,18 @@
     #whole_page
       #header RailsSpace
       #nav
-        = link_to_unless_current 'Home', :action => 'index'
+        = nav_link 'Home', 'site'
         |
-        = link_to_unless_current 'About Us', :action => 'about'
+        = nav_link 'About Us', 'site', 'about'
         |
-        = link_to_unless_current 'Help', :action => 'help'
+        = nav_link 'Help', 'site', 'help'
+        |
+        = nav_link 'Register', 'user', 'register'
       #content
         - if flash[:notice]
           #notice
             = flash[:notice]
-        = @content_for_layout
+        = yield
         
       - if ENV["RAILS_ENV"] == "development"
         = debug(params)
