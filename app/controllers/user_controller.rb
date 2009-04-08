@@ -13,7 +13,8 @@ class UserController < ApplicationController
       
       @user = User.new(params[:user])
       if @user.save
-        render :text => "User created!"
+        flash[:notice] = "User #{@user.screen_name} created!"
+        redirect_to :action => "index"
       end
     end
   end
