@@ -62,6 +62,11 @@ class UserControllerTest < ActionController::TestCase
     # Test flash and redirect
     assert_equal "User #{new_user.screen_name} created!", flash[:notice]
     assert_redirected_to :action => "index" 
+
+    # Make sure user is logged in properly
+    assert_not_nil session[:user_id]
+    assert_equal user.id, session[:user_id]
+
   end
   
   def test_registration_failure
@@ -88,6 +93,7 @@ class UserControllerTest < ActionController::TestCase
     assert_tag "input", :attributes => { :name => "user[password]", :value => "sun" }, :parent => error_div    
     
   end  
+
   
   # Replace this with your real tests.
   test "the truth" do
