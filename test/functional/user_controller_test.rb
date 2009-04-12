@@ -191,30 +191,14 @@ class UserControllerTest < ActionController::TestCase
 
   # Test forward back to proteted page after login.
   def test_login_friendly_url_forwarding
-    # Get a protected page
-    get :index
-    assert_response :redirect
-    assert_redirected_to :action => "login"
-    try_to_login @valid_user
-    assert_response :redirect
-    assert_redirected_to :action => "index"
-    # Make sure the forwarding url has been cleared.
-    assert_nil session[:protected_page]
+    user = { :screen_name => @valid_user.screen_name, :password => @valid_user.password }
+    friendly_url_forwarding_aux(:login, :index, user)
   end
 
   # Test forward back to protected page after register.
   def test_register_friendly_url_forwarding
-    # Get a protected page
-    get :index
-    assert_response :redirect
-    assert_redirected_to :action => "login"
-    post :register, :user => { :screen_name => "new_screen_name", :email => "valid@example.com",
-      :password => "long_enough_passowrd"
-    }
-    assert_response :redirect
-    assert_redirected_to :action => "index"
-    # Make sure the forwarding url has been cleared.
-    assert_nil session[:protected_page]
+    user = { :screen_name => "new_screen_name", :password => "long_enough_password", :email => "valid@example.com" }
+    friendly_url_forwarding_aux(:register, :index, user)
   end
   
   # Replace this with your real tests.
@@ -234,4 +218,15 @@ class UserControllerTest < ActionController::TestCase
     @request.session[:user_id] = user.id
   end
 
+  def friendly_url_forwarding_aux(test_page, protected_page, user)
+    get protected_page
+    assert_response :redirect
+    assert_redirected_to :action => "login"
+    post test_page, :user => user
+    assert_response :redirect
+    assert_redirected_to :action => protected_page
+    # Make sure the forwarding url has been cleared.
+    assert_nil session[:protected_page]
+  end
+  
 end
