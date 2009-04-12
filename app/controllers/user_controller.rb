@@ -2,11 +2,13 @@ class UserController < ApplicationController
 #  layout "site"
   
   def index
+
     @title = "RailsSpace User Hub"
+    # This will be a protected page for viewing user information.
   end
 
   def login
-    @title = "Log in to Railspace"
+    @title = "Log in to RailsSpace"
     if request.post? and params[:user]
       @user = User.new(params[:user])
       user = User.find_by_screen_name_and_password(@user.screen_name, @user.password)
@@ -20,6 +22,12 @@ class UserController < ApplicationController
         flash[:notice] = "Invalid screen name/password combination"
       end
     end
+  end
+  
+  def logout
+    session[:user_id] = nil
+    flash[:notice] = "Logged out"
+    redirect_to :action => "index", :controller => "site"
   end
   
   def register
@@ -37,5 +45,14 @@ class UserController < ApplicationController
       end
     end
   end
-
+  
+  private
+  
+  def protect
+    unless session[:user_id]
+      flash[:notice] = "Please log in first"
+      redirect_to :action => "login"
+      return false
+    end
+  end
 end

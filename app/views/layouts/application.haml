@@ -10,9 +10,14 @@
       #header RailsSpace
       #nav
         %span{ :style => "float: right"}
-          = nav_link 'Register', 'user', 'register'
-          |
-          = nav_link 'Login', 'user', 'login'
+          - if session[:user_id]
+            = nav_link 'Hub', 'user', 'index'
+            |
+            = nav_link 'Logout', 'user', 'logout'
+          - else
+            = nav_link 'Register', 'user', 'register'
+            |
+            = nav_link 'Login', 'user', 'login'
         = nav_link 'Home', 'site'
         |
         = nav_link 'About Us', 'site', 'about'
