@@ -34,9 +34,19 @@
           %a{ :href => "#", :onclick => "Element.toggle('params_debug_info');return false" } params
           |
           %a{ :href => "#", :onclick => "Element.toggle('session_debug_info');return false"} session
+          |
+          %a{ :href => "#", :onclick => "Element.toggle('env_debug_info');return false"} env
+          |
+          %a{ :href => "#", :onclick => "Element.toggle('request_debug_info');return false"} request
           %fieldset{ :id => 'params_debug_info', :class => 'debug_info', :style =>'display:none'}
             %legend params
             = debug(params)
           %fieldset{ :id => 'session_debug_info', :class => 'debug_info', :style =>'display:none'}
             %legend session
             = debug(session)
+          %fieldset{ :id => 'env_debug_info', :class => 'debug_info', :style =>'display:none'}
+            %legend env
+            = debug(request.env)
+          %fieldset{ :id => 'request_debug_info', :class => 'debug_info', :style =>'display:none'}
+            %legend request
+            = debug(request)

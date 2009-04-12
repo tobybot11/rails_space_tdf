@@ -171,6 +171,51 @@ class UserControllerTest < ActionController::TestCase
     assert_no_tag "a", :content => /Login/
   end
   
+  # Test index page for unauthorized user.
+  def test_index_unauthorized
+    # Make sure the before_filter is working properly.
+    get :index
+    assert_response :redirect
+    assert_redirected_to :action => "login"
+    assert_equal "Please log in first", flash[:notice]
+  end
+  
+  # Test index page for authorized user.
+  def test_index_authorized
+    authorize @valid_user
+    get :index
+    assert_response :success
+    assert_template "index"
+  end
+
+  # Test forward back to proteted page after login.
+  def test_login_friendly_url_forwarding
+    # Get a protected page
+    get :index
+    assert_response :redirect
+    assert_redirected_to :action => "login"
+    try_to_login @valid_user
+    assert_response :redirect
+    assert_redirected_to :action => "index"
+    # Make sure the forwarding url has been cleared.
+    assert_nil session[:protected_page]
+  end
+
+  # Test forward back to protected page after register.
+  def test_register_friendly_url_forwarding
+    # Get a protected page
+    get :index
+    assert_response :redirect
+    assert_redirected_to :action => "login"
+    post :register, :user => { :screen_name => "new_screen_name", :email => "valid@example.com",
+      :password => "long_enough_passowrd"
+    }
+    assert_response :redirect
+    assert_redirected_to :action => "index"
+    # Make sure the forwarding url has been cleared.
+    assert_nil session[:protected_page]
+  end
+  
   # Replace this with your real tests.
   test "the truth" do
     assert true

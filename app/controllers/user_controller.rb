@@ -1,5 +1,5 @@
 class UserController < ApplicationController  
-  before_filter :protect
+  before_filter :protect, :only => :index
   
   def index
 
@@ -9,13 +9,19 @@ class UserController < ApplicationController
 
   def login
     @title = "Log in to RailsSpace"
+    
     if request.post? and params[:user]
       @user = User.new(params[:user])
       user = User.find_by_screen_name_and_password(@user.screen_name, @user.password)
       if user
         session[:user_id] = user.id
         flash[:notice] = "User #{user.screen_name} logged in!"
-        redirect_to :action => 'index'
+        if (redirect_url = session[:protected_page])
+          session[:protected_page] = nil
+          redirect_to redirect_url
+        else  
+          redirect_to :action => 'index'
+        end
       else
         # Don't show the password in the view.
         @user.password = nil
@@ -41,7 +47,12 @@ class UserController < ApplicationController
       if @user.save
         session[:user_id] = @user.id
         flash[:notice] = "User #{@user.screen_name} created!"
-        redirect_to :action => "index"
+        if (redirect_url = session[:protected_page])
+          session[:protected_page] = nil
+          redirect_to redirect_url
+        else  
+          redirect_to :action => 'index'
+        end
       end
     end
   end
@@ -50,6 +61,7 @@ class UserController < ApplicationController
   
   def protect
     unless session[:user_id]
+      session[:protected_page] = request.request_uri
       flash[:notice] = "Please log in first"
       redirect_to :action => "login"
       return false
