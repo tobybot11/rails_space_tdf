@@ -14,6 +14,10 @@
       %br/
     
     .form_row
+      %label{ 'for' => "remember_me", } Remember Me?
+      = form.check_box :remember_me
+      
+    .form_row
       = submit_tag "Login!", :class => "submit"
 
 %p 
