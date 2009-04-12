@@ -95,7 +95,7 @@ class UserControllerTest < ActionController::TestCase
     
     assert_tag "input", :attributes => { :name => "user[screen_name]", :value => "aa/noyes" }, :parent => error_div
     assert_tag "input", :attributes => { :name => "user[email]", :value => "anoyes@example,com" }, :parent => error_div
-    assert_tag "input", :attributes => { :name => "user[password]", :value => "sun" }, :parent => error_div    
+    assert_tag "input", :attributes => { :name => "user[password]", :value => nil }, :parent => error_div    
     
   end  
 

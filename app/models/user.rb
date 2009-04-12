@@ -38,4 +38,9 @@ class User < ActiveRecord::Base
     session[:user_id] = nil
   end
   
+  # Clear the password (typically to suppress it's display in a view)
+  def clear_password!
+    self.password = nil
+  end
+  
 end
