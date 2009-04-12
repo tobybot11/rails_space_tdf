@@ -127,6 +127,41 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
+  # Test the email validator against invalid email addresses.
+  def test_email_with_invalid_examples
+    user = @valid_user
+    invalid_emails = %w{ foobar@example.c @example.com 
+      f@com foo@bar..com  
+      foobar@exmample.infod 
+      foobar.example.com foo,@example.com 
+      foo@ex(ample.com foo@example,com 
+    }
+    
+    invalid_emails.each do |email|
+      user.email = email
+      assert !user.valid?, "#{email} tests as valid but shouldn't be"
+      assert_equal "must be a valid email address", user.errors.on(:email)
+    end
+  end
+  
+  def test_screen_name_with_valid_examples
+    user = @valid_user
+    valid_screen_names = %w(aure michael web_20)
+    valid_screen_names.each do |screen_name|
+      user.screen_name = screen_name
+      assert user.valid?, "#{screen_name} should pass validation, but doesn't"
+    end
+  end
+      
+  def test_screen_name_with_invalid_examples
+    user = @valid_user
+    invalid_screen_names = %w{rails/rocks web2.0 javascript:something}
+    invalid_screen_names.each do |screen_name|
+      user.screen_name = screen_name
+      assert !user.valid?, "#{screen_name} shouldn't pass validation, but does"
+    end
+  end
+  
   test "the truth" do
     assert true
   end
