@@ -4,17 +4,20 @@
     %title
       = @title
     = stylesheet_link_tag "site"
+    = javascript_include_tag :defaults
   %body
     #whole_page
       #header RailsSpace
       #nav
+        %span{ :style => "float: right"}
+          = nav_link 'Register', 'user', 'register'
+          |
+          = nav_link 'Login', 'user', 'login'
         = nav_link 'Home', 'site'
         |
         = nav_link 'About Us', 'site', 'about'
         |
         = nav_link 'Help', 'site', 'help'
-        |
-        = nav_link 'Register', 'user', 'register'
       #content
         - if flash[:notice]
           #notice
@@ -22,5 +25,13 @@
         = yield
         
       - if ENV["RAILS_ENV"] == "development"
-        = debug(params)
-        = debug(session)
+        #debug
+          %a{ :href => "#", :onclick => "Element.toggle('params_debug_info');return false" } params
+          |
+          %a{ :href => "#", :onclick => "Element.toggle('session_debug_info');return false"} session
+          %fieldset{ :id => 'params_debug_info', :class => 'debug_info', :style =>'display:none'}
+            %legend params
+            = debug(params)
+          %fieldset{ :id => 'session_debug_info', :class => 'debug_info', :style =>'display:none'}
+            %legend session
+            = debug(session)
