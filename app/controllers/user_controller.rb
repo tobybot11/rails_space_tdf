@@ -1,5 +1,5 @@
-class UserController < ApplicationController
-#  layout "site"
+class UserController < ApplicationController  
+  before_filter :protect
   
   def index
 
