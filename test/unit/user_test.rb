@@ -113,6 +113,20 @@ class UserTest < ActiveSupport::TestCase
     assert_equal correct_error_message, user.errors.on(:email)
   end
   
+  # Test the email validator against valid email addresses
+  def test_email_with_valid_examples
+    user = @valid_user
+    valid_endings = %w{com org net edu es jp info}
+    valid_emails = valid_endings.collect do |ending|
+      "foo.bar_1-9@bax-quux0.example.#{ending}"
+    end
+    
+    valid_emails.each do |email|
+      user.email = email
+      assert user.valid?, "#{email} must be a valid email address"
+    end
+  end
+  
   test "the truth" do
     assert true
   end
