@@ -10,7 +10,7 @@
       #header RailsSpace
       #nav
         %span{ :style => "float: right"}
-          - if session[:user_id]
+          - if logged_in?
             = nav_link 'Hub', 'user', 'index'
             |
             = nav_link 'Logout', 'user', 'logout'

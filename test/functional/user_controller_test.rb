@@ -5,6 +5,7 @@ require 'user_controller'
 class UserController; def rescue_action(e) raise e end; end
 
 class UserControllerTest < ActionController::TestCase
+  include ApplicationHelper
   fixtures :users
   
   def setup
@@ -68,7 +69,7 @@ class UserControllerTest < ActionController::TestCase
     assert_redirected_to :action => "index" 
 
     # Make sure user is logged in properly
-    assert_not_nil session[:user_id]
+    assert logged_in?
     assert_equal user.id, session[:user_id]
 
   end
@@ -117,7 +118,7 @@ class UserControllerTest < ActionController::TestCase
 
   def test_login_success
     try_to_login @valid_user
-    assert_not_nil session[:user_id]
+    assert logged_in?
     assert_equal @valid_user.id, session[:user_id]
     assert_equal "User #{@valid_user.screen_name} logged in!", flash[:notice]
     assert_redirected_to :action => 'index'
@@ -154,12 +155,12 @@ class UserControllerTest < ActionController::TestCase
   # Test the logout function
   def test_logout
     try_to_login @valid_user
-    assert_not_nil session[:user_id]
+    assert logged_in?
     get :logout
     assert_response :redirect
     assert_redirected_to :action => "index", :controller => "site"
     assert_equal "Logged out", flash[:notice]
-    assert_nil session[:user_id]
+    assert !logged_in?
   end
   
   # Test the navigation menu after login.
