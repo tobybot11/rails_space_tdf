@@ -66,6 +66,53 @@ class UserTest < ActiveSupport::TestCase
     assert user.valid?, "#{user.screen_name} should be just short enough to pass"
   end
   
+  # Make sure the password can't be too short.
+  def test_password_minimum_length
+    user = @valid_user
+    min_length = User::PASSWORD_MIN_LENGTH
+    
+    # Password is too short
+    user.password = "a" * (min_length - 1)
+    assert !user.valid?, "#{user.password} should raise a minimum length error"
+    # Format the error message based on minimum length.
+    correct_error_message = I18n.t "activerecord.errors.messages.too_short", :count => min_length
+    assert_equal correct_error_message, user.errors.on(:password)
+    
+    # Password is just long enough.
+    user.password = "a" * min_length
+    assert user.valid?, "#{user.password} should be just long enough to pass"
+  end
+
+  # Make sure the password can't be too long
+  def test_password_maximum_length
+      user = @valid_user
+      max_length = User::PASSWORD_MAX_LENGTH
+      
+      # Password is too long.
+      user.password = "a" * (max_length + 1)
+      assert !user.valid?, "#{user.password} should raise a maximum length error"
+      # Format the error message based on maximum length
+      correct_error_message = I18n.t "activerecord.errors.messages.too_long", :count => max_length
+      assert_equal correct_error_message, user.errors.on(:password)
+      
+      # Passowrd is maximum length.
+      user.password = "a" * max_length
+      assert user.valid?, "#{user.password} should be just short enough to pass"
+  end
+  
+  # Make sure email can't be too long
+  def test_email_maximum_length
+    user = @valid_user
+    max_length = User::EMAIL_MAX_LENGTH
+    
+    # Construct a valid email that is too long.
+    user.email = "a" * (max_length - user.email.length + 1) + user.email
+    assert !user.valid?, "#{user.email} should raise a maximum length error"
+    # Format the error message based on maximum length
+    correct_error_message = I18n.t "activerecord.errors.messages.too_long", :count => max_length
+    assert_equal correct_error_message, user.errors.on(:email)
+  end
+  
   test "the truth" do
     assert true
   end
