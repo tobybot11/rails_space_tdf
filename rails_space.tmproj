@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>test/functional/site_controller_test.rb</string>
+	<string>test/unit/user_test.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -203,6 +203,20 @@
 			<key>firstVisibleLine</key>
 			<integer>90</integer>
 		</dict>
+		<key>test/fixtures/users.yml</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>24</integer>
+				<key>line</key>
+				<integer>11</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>test/functional/site_controller_test.rb</key>
 		<dict>
 			<key>caret</key>
@@ -217,6 +231,34 @@
 			<key>firstVisibleLine</key>
 			<integer>0</integer>
 		</dict>
+		<key>test/functional/user_controller_test.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>82</integer>
+				<key>line</key>
+				<integer>87</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>47</integer>
+		</dict>
+		<key>test/unit/user_test.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>89</integer>
+				<key>line</key>
+				<integer>60</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>17</integer>
+		</dict>
 	</dict>
 	<key>openDocuments</key>
 	<array>
@@ -225,6 +267,9 @@
 		<string>app/controllers/site_controller.rb</string>
 		<string>app/views/layouts/application.haml</string>
 		<string>test/functional/site_controller_test.rb</string>
+		<string>test/functional/user_controller_test.rb</string>
+		<string>test/unit/user_test.rb</string>
+		<string>test/fixtures/users.yml</string>
 		<string>app/models/user.rb</string>
 		<string>app/controllers/user_controller.rb</string>
 		<string>public/stylesheets/site.css</string>
@@ -238,6 +283,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{77, 45}, {1033, 943}}</string>
+	<string>{{43, 61}, {1033, 943}}</string>
 </dict>
 </plist>
