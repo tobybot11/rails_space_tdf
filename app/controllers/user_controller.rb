@@ -12,7 +12,9 @@ class UserController < ApplicationController
   def login
     @title = "Log in to RailsSpace"
     
-    if param_posted?(:user)
+    if request.get?
+      @user = User.new(:remember_me => cookies[:remember_me] || "0")
+    elsif param_posted?(:user)
       @user = User.new(params[:user])
       user = User.find_by_screen_name_and_password(@user.screen_name, @user.password)
       if user
