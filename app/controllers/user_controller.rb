@@ -23,8 +23,9 @@ class UserController < ApplicationController
           # the box is check so set the remember_me cookie.
           cookies[:remember_me] = { :value => "1", :expires => 10.years.from_now }
 
-          user.authorization_token = user.id
+          user.authorization_token = Digest::SHA1.hexdigest("#{user.screen_name}:#{user.password}")
           user.save!
+          
           cookies[:authorization_token] = { :value => user.authorization_token, :expires => 10.years.from_now }
         else
           cookies.delete(:remember_me)
@@ -41,7 +42,7 @@ class UserController < ApplicationController
   end
   
   def logout
-    User.logout!(session)
+    User.logout!(session, cookies)
     flash[:notice] = "Logged out"
     redirect_to :action => "index", :controller => "site"
   end

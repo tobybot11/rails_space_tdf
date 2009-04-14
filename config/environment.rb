@@ -40,4 +40,7 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
   
   config.action_controller.session_store = :active_record_store
+  #config.action_controller.session = {
+  #    :session_key => '_rails_space_tdf_session_id'
+  #}
 end
