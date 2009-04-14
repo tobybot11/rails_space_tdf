@@ -118,7 +118,7 @@ class UserControllerTest < ActionController::TestCase
   end
 
   def test_login_success
-    try_to_login @valid_user
+    try_to_login @valid_user, :remember_me => "0"
     assert logged_in?
     assert_equal @valid_user.id, session[:user_id]
     assert_equal "User #{@valid_user.screen_name} logged in!", flash[:notice]
@@ -210,8 +210,10 @@ class UserControllerTest < ActionController::TestCase
   private
   
   # Try to log a user in using the login section
-  def try_to_login(user)
-    post :login, :user => { :screen_name => user.screen_name, :password => user.password }
+  def try_to_login(user, options = {})
+    user_hash = { :screen_name => user.screen_name, :password => user.password }
+    user_hash.merge!(options)
+    post :login, :user => user_hash
   end
   
   # Authorize a user.
