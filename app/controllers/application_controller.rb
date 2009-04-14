@@ -11,8 +11,8 @@ class ApplicationController < ActionController::Base
   before_filter :check_authorization
   
   # Pick a unique cookie name to distinquish our session data from others
-  session :session_key => '_rails_space_tdf_session_id' #<- raises deprecation warning
-#  request.session_options[:session_key] = "_rails_space_tdf_session_id"
+  #session :session_key => '_rails_space_tdf_session_id' #<- raises deprecation warning
+  #request.session_options[:session_key] = "_rails_space_tdf_session_id"
   
   # Check for a valid authorization cookie, possibly logging the userin
   def check_authorization
