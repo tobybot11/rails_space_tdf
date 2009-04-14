@@ -113,6 +113,7 @@ class UserControllerTest < ActionController::TestCase
     assert_tag "input", :attributes => { :name => "user[password]", :type => 'password', 
         :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH 
       }
+    assert_tag "input", :attributes => { :type => 'checkbox', :name => "user[remember_me]"}
     assert_tag "input", :attributes => { :type => 'submit', :value => 'Login!' }
   end
 
