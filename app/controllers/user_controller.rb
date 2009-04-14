@@ -22,6 +22,13 @@ class UserController < ApplicationController
         if @user.remember_me == "1"
           # the box is check so set the remember_me cookie.
           cookies[:remember_me] = { :value => "1", :expires => 10.years.from_now }
+
+          user.authorization_token = user.id
+          user.save!
+          cookies[:authorization_token] = { :value => user.authorization_token, :expires => 10.years.from_now }
+        else
+          cookies.delete(:remember_me)
+          cookies.delete(:authorization_token)
         end
         flash[:notice] = "User #{user.screen_name} logged in!"
         redirect_to_forwarding_url

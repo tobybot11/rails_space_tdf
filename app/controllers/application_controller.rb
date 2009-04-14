@@ -3,8 +3,23 @@
 
 class ApplicationController < ActionController::Base
   helper :all # include all helpers, all the time
+  
   protect_from_forgery # See ActionController::RequestForgeryProtection for details
 
   # Scrub sensitive parameters from your log
   # filter_parameter_logging :password
+  before_filter :check_authorization
+  
+  # Pick a unique cookie name to distinquish our session data from others
+  session :session_key => '_rails_space_tdf_session_id'
+  
+  # Check for a valid authorization cookie, possibly logging the userin
+  def check_authorization
+    if cookies[:authorization_token] and not session[:user_id]
+      user = User.find_by_authorization_token[:authorization_token]
+      user.login!(session) if user
+    end
+  end
+  
+
 end

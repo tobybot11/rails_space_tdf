@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>currentDocument</key>
-	<string>app/controllers/user_controller.rb</string>
+	<string>app/models/user.rb</string>
 	<key>documents</key>
 	<array>
 		<dict>
@@ -21,14 +21,28 @@
 	<integer>200</integer>
 	<key>metaData</key>
 	<dict>
+		<key>app/controllers/application_controller.rb</key>
+		<dict>
+			<key>caret</key>
+			<dict>
+				<key>column</key>
+				<integer>12</integer>
+				<key>line</key>
+				<integer>13</integer>
+			</dict>
+			<key>firstVisibleColumn</key>
+			<integer>0</integer>
+			<key>firstVisibleLine</key>
+			<integer>0</integer>
+		</dict>
 		<key>app/controllers/user_controller.rb</key>
 		<dict>
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>7</integer>
+				<integer>46</integer>
 				<key>line</key>
-				<integer>16</integer>
+				<integer>30</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -54,9 +68,9 @@
 			<key>caret</key>
 			<dict>
 				<key>column</key>
-				<integer>2</integer>
+				<integer>29</integer>
 				<key>line</key>
-				<integer>2</integer>
+				<integer>5</integer>
 			</dict>
 			<key>firstVisibleColumn</key>
 			<integer>0</integer>
@@ -139,6 +153,7 @@
 		<string>app/views/layouts/application.haml</string>
 		<string>app/models/user.rb</string>
 		<string>app/controllers/user_controller.rb</string>
+		<string>app/controllers/application_controller.rb</string>
 		<string>test/functional/user_controller_test.rb</string>
 		<string>app/views/user/login.haml</string>
 		<string>app/helpers/application_helper.rb</string>
@@ -148,6 +163,6 @@
 	<key>showFileHierarchyDrawer</key>
 	<true/>
 	<key>windowFrame</key>
-	<string>{{87, 71}, {1033, 943}}</string>
+	<string>{{454, 102}, {926, 904}}</string>
 </dict>
 </plist>
