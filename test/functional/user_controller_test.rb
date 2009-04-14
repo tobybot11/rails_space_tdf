@@ -122,7 +122,10 @@ class UserControllerTest < ActionController::TestCase
     assert logged_in?
     assert_equal @valid_user.id, session[:user_id]
     assert_equal "User #{@valid_user.screen_name} logged in!", flash[:notice]
+    assert_response :redirect
     assert_redirected_to :action => 'index'
+    
+    
   end
   
 
