@@ -125,7 +125,12 @@ class UserControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_redirected_to :action => 'index'
     
-    
+    # Verify that we're not remembering the user
+    user = assigns(:user)
+    assert user.remember_me != "1"
+    # There should be no cookies set.
+    assert_nil cookies[:remember_me]
+    assert_nil cookies[:authorization_token]
   end
   
 
