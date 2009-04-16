@@ -56,6 +56,11 @@ class UserController < ApplicationController
     end
   end
   
+  def edit
+    @title = "Edit basic info"
+    
+  end
+  
   private
   
   def protect

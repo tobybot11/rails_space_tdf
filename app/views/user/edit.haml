@@ -1,0 +1,12 @@
+%h2 
+  = @title
+= error_messages_for 'user'
+- form_for :user do |form|
+  %fieldset
+    %legend Email
+    .form_row
+      %label{ 'for' => "email"} Email:
+      = form.text_field :email, :size => User::EMAIL_SIZE, :maxlength => User::EMAIL_MAX_LENGTH
+      
+    .form_row
+      =submit_tag "Update", :class=> "submit"
