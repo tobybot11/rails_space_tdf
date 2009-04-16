@@ -1,7 +1,7 @@
 class UserController < ApplicationController  
   include ApplicationHelper
   
-  before_filter :protect, :only => :index
+  before_filter :protect, :only => [:index, :edit]
   
   def index
     @title = "RailsSpace User Hub"
@@ -58,7 +58,13 @@ class UserController < ApplicationController
   
   def edit
     @title = "Edit basic info"
-    
+    @user = User.find(session[:user_id])
+    if param_posted?(:user)
+      if @user.update_attributes(params[:user])
+        flash[:notice] = "Email updated."
+        redirect_to :action => "index"
+      end
+    end
   end
   
   private
