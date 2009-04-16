@@ -41,6 +41,8 @@ Rails::Initializer.run do |config|
   
   config.action_controller.session_store = :active_record_store
   config.action_controller.session = {
-      :session_key => '_rails_space_tdf_session_id'
+      :session_key => '_rails_space_tdf_session_id',
+      :secret => 'ca42ffea933463640a4ba100869189d13ebde9bf260958a65a08d93ad00075f8ee2bdb5091dc108c14c3fbb6181411d3d33b0e28aa5e3bc6f82f75101ef640e3'
   }
+#  config.action_controller.allow_forgery_protection = false
 end

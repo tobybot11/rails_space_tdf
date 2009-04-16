@@ -12,6 +12,11 @@ invalid_user:
   email: anoyes@example,com
   password: sun
   
+my_user:
+  id: 3
+  screen_name: tobybot11
+  email: toby.ford@pobox.com
+  password: test
 
 # one:
 #   column: value

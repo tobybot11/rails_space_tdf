@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 require 'user_controller'
 
 # Re-raise errors caught by the controller
@@ -116,24 +116,48 @@ class UserControllerTest < ActionController::TestCase
     assert_tag "input", :attributes => { :type => 'checkbox', :name => "user[remember_me]"}
     assert_tag "input", :attributes => { :type => 'submit', :value => 'Login!' }
   end
-
+  
+  # Test a valid login.
   def test_login_success
     try_to_login @valid_user, :remember_me => "0"
     assert logged_in?
     assert_equal @valid_user.id, session[:user_id]
     assert_equal "User #{@valid_user.screen_name} logged in!", flash[:notice]
     assert_response :redirect
-    assert_redirected_to :action => 'index'
+    assert_redirected_to :action => "index"
     
-    # Verify that we're not remembering the user
+    # Verify that we're not remembering the user.
     user = assigns(:user)
+    assert user.remember_me == "0"
     assert user.remember_me != "1"
+    
     # There should be no cookies set.
     assert_nil cookies[:remember_me]
     assert_nil cookies[:authorization_token]
   end
-  
 
+  def test_login_success_with_remember_me
+    try_to_login @valid_user, :remember_me => "1"
+    test_time = Time.now
+    assert logged_in?
+    assert_equal @valid_user.id, session[:user_id]
+    assert_equal "User #{@valid_user.screen_name} logged in!", flash[:notice]
+    assert_response :redirect
+    assert_redirected_to :action => "index"
+    
+    # Check cookies and expiration dates.
+    user = User.find(@valid_user.id)
+    
+    # Remember me cookie
+    assert_equal "1", cookies["remember_me"]    
+    # Won't work in 2.3
+    # assert_equal 10.years.from_now(test_time), cookies["remember_me"].expires
+    
+    # Authorization cookie
+    assert_equal user.authorization_token, cookies["authorization_token"]
+    
+  end
+  
   # Test a login with invalid screen name
   def test_login_failure_with_nonexistent_screen_name
     invalid_user = @valid_user
@@ -163,13 +187,17 @@ class UserControllerTest < ActionController::TestCase
   
   # Test the logout function
   def test_logout
-    try_to_login @valid_user
+    try_to_login @valid_user, :remember_me => "1"
     assert logged_in?
+    assert_not_nil cookies["authorization_token"]
+    
     get :logout
     assert_response :redirect
     assert_redirected_to :action => "index", :controller => "site"
     assert_equal "Logged out", flash[:notice]
     assert !logged_in?
+    
+    assert_nil cookies["authorization_token"]
   end
   
   # Test the navigation menu after login.
@@ -239,5 +267,16 @@ class UserControllerTest < ActionController::TestCase
     # Make sure the forwarding url has been cleared.
     assert_nil session[:protected_page]
   end
+  
+  # These two don't work in Rails >2.3 - cookies work differently 
+  # Return the cookie value given a symbol.
+  # def cookie_value(symbol)
+  #   cookies[symbol.to_s].value.first
+  # end
+  
+  # Return the cookie expiration given a symbol.
+  # def cookie_expires(symbol)
+  #   cookies[symbol.to_s].expires
+  # end
   
 end

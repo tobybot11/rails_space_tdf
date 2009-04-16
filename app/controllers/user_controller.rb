@@ -10,6 +10,7 @@ class UserController < ApplicationController
   end
 
   def login
+    
     @title = "Log in to RailsSpace"
     
     if request.get?

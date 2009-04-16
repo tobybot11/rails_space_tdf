@@ -11,5 +11,4 @@ module ApplicationHelper
     not session[:user_id].nil?
   end
   
-  
 end
