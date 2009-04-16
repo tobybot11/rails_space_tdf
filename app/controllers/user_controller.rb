@@ -60,14 +60,33 @@ class UserController < ApplicationController
     @title = "Edit basic info"
     @user = User.find(session[:user_id])
     if param_posted?(:user)
-      if @user.update_attributes(params[:user])
-        flash[:notice] = "Email updated."
-        redirect_to :action => "index"
+      attribute = params[:attribute]
+      case attribute
+      when "email"
+        try_to_update @user, attribute
+      when "password"
+        if @user.correct_password?(params)
+          try_to_update @user, attribute
+        else
+          @user.password_errors(params)
+        end
       end
     end
+    
+    # For security purposes, never fill in password fields.
+    @user.clear_password!
   end
   
   private
+  
+  
+  # Try to udpate the user, redirecting it successful
+  def try_to_update(user, attribute)
+    if user.update_attributes(params[:user])
+      flash[:notice] = "User #{attribute} updated."
+      redirect_to :action => "index"
+    end    
+  end
   
   def protect
     unless logged_in?

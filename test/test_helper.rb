@@ -35,4 +35,33 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  # Assert the form tag.
+  def assert_form_tag(action)
+    assert_tag "form", :attributes => { :action => action, :method => "post"}
+  end
+  
+  # Assert submit button with optional label.
+  def assert_submit_button(button_label = nil)
+    if button_label
+      assert_tag "input", :attributes => { :type => "submit", :value => button_label }
+    else
+      assert_tag "input", :attributes => { :type => "submit" }
+    end
+  end
+  
+  # Assert existence of form input field with attributes
+  def assert_input_field(name, value, field_type, size, maxlength, options = {})
+    attributes = { :name => name, :type => field_type, :size => size, :maxlength => maxlength }
+    # Surprisingly, attributes[:value] == nil is different from attributes
+    # ot having a :value key at all
+    attributes[:value] = value unless value.nil?
+    tag = { :tag => "input", :attributes => attributes }
+    # Merge tag hash with options, espeically to handle :parent => error_div
+    # option in error tests.
+    tag.merge!(options)
+    assert_tag tag
+  end
+        
+
 end

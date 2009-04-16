@@ -1,6 +1,7 @@
 require 'digest/sha1'
 class User < ActiveRecord::Base
   attr_accessor :remember_me
+  attr_accessor :current_password
   
   # Max & min lengths for all fields
   SCREEN_NAME_MIN_LENGTH = 4
@@ -20,6 +21,7 @@ class User < ActiveRecord::Base
   validates_length_of     :screen_name, :within => SCREEN_NAME_RANGE
   validates_length_of     :password,    :within => PASSWORD_RANGE
   validates_length_of     :email,       :maximum => EMAIL_MAX_LENGTH
+  validates_confirmation_of :password
   
   validates_format_of :screen_name,
                       :with => /^[A-Z0-9_]*$/i,
@@ -44,6 +46,8 @@ class User < ActiveRecord::Base
   # Clear the password (typically to suppress it's display in a view)
   def clear_password!
     self.password = nil
+    self.password_confirmation = nil
+    self.current_password = nil
   end
   
   # Remember a user for future login
@@ -69,6 +73,26 @@ class User < ActiveRecord::Base
   # Return true if the user wants the login status remembered.
   def remember_me?
     remember_me == "1"
+  end
+
+  
+  # Return true if the password from params is correct.
+  def correct_password?(params)
+    current_password = params[:user][:current_password]
+    password == current_password
+  end
+  
+  # Generate messages for password errors
+  def password_errors(params)
+    # Use User model's valid? method to generate error messages
+    # for a password mismatch (if any).
+    self.password = params[:user][:password]
+    self.password_confirmation = params[:user][:password_confirmation]
+    
+    valid?
+    
+    # The Current pw is incorrect, so add an error message.
+    errors.add(:current_password, "is incorrect")
   end
   
   private
