@@ -4,9 +4,9 @@ class UserController < ApplicationController
   before_filter :protect, :only => :index
   
   def index
-
     @title = "RailsSpace User Hub"
-    # This will be a protected page for viewing user information.
+    @user = User.find(session[:user_id])
+    
   end
 
   def login

@@ -1,2 +1,13 @@
-%h1 Welcome!
-%p This page will serve as the hub for users of RailsSpace.
+%h2 Your basic information
+%ul
+  %li 
+    Screen Name:
+    = @user.screen_name
+  %li
+    Email:
+    = @user.email
+  %li
+    Password: ******
+%ul
+  %li
+    = link_to "Edit my info", :action => "edit"
