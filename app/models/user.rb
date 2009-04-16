@@ -1,3 +1,4 @@
+require 'digest/sha1'
 class User < ActiveRecord::Base
   attr_accessor :remember_me
   
@@ -43,6 +44,38 @@ class User < ActiveRecord::Base
   # Clear the password (typically to suppress it's display in a view)
   def clear_password!
     self.password = nil
+  end
+  
+  # Remember a user for future login
+  def remember!(cookies)
+    cookie_expiration = 10.years.from_now
+    # the box is check so set the remember_me cookie.
+    cookies[:remember_me] = { :value => "1", :expires => cookie_expiration }
+
+    self.authorization_token = unique_identifier
+    save!
+  
+    cookies[:authorization_token] = { :value => authorization_token, 
+      :expires => cookie_expiration 
+    }
+  end
+  
+  # Forget a users' login status.
+  def forget!(cookies)
+    cookies.delete(:remember_me)
+    cookies.delete(:authorization_token)
+  end
+
+  # Return true if the user wants the login status remembered.
+  def remember_me?
+    remember_me == "1"
+  end
+  
+  private
+
+  # Generate a unique identifier for a user.
+  def unique_identifier
+    Digest::SHA1.hexdigest("#{screen_name}:#{password}")
   end
   
 end

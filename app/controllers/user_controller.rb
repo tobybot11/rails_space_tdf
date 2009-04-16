@@ -14,24 +14,14 @@ class UserController < ApplicationController
     @title = "Log in to RailsSpace"
     
     if request.get?
-      @user = User.new(:remember_me => cookies[:remember_me] || "0")
+      @user = User.new(:remember_me => remember_me_string )
     elsif param_posted?(:user)
       @user = User.new(params[:user])
       user = User.find_by_screen_name_and_password(@user.screen_name, @user.password)
+      
       if user
         user.login!(session)
-        if @user.remember_me == "1"
-          # the box is check so set the remember_me cookie.
-          cookies[:remember_me] = { :value => "1", :expires => 10.years.from_now }
-
-          user.authorization_token = Digest::SHA1.hexdigest("#{user.screen_name}:#{user.password}")
-          user.save!
-          
-          cookies[:authorization_token] = { :value => user.authorization_token, :expires => 10.years.from_now }
-        else
-          cookies.delete(:remember_me)
-          cookies.delete(:authorization_token)
-        end
+        @user.remember_me? ? user.remember!(cookies) : user.forget!(cookies)
         flash[:notice] = "User #{user.screen_name} logged in!"
         redirect_to_forwarding_url
       else
@@ -91,4 +81,8 @@ class UserController < ApplicationController
     end
   end
   
+  # Return a string with the status of the remember me checkbox.
+  def remember_me_string
+    cookies[:remember_me] || "0"
+  end
 end
