@@ -62,6 +62,49 @@ class ActiveSupport::TestCase
     tag.merge!(options)
     assert_tag tag
   end
-        
+  
+  # Test the minimum or maximum length of an attribute
+  def assert_length(boundary, object, attribute, length, options = {})
+    valid_char = options[:valid_char] || "a"
+    barely_invalid = barely_invalid_string(boundary, length, valid_char)
+    
+    # Test one over the boundary.
+    object[attribute] = barely_invalid
+    assert !object.valid?,
+      "#{object[attribute]} (length #{object[attribute].length}) " +
+      "should raise a length error"
+    assert_equal correct_error_message(boundary, length),
+      object.errors.on(attribute)
+      
+    # Test the boundary itself.
+    barely_valid = valid_char * length
+    object[attribute] = barely_valid
+    assert object.valid?,
+      "#{object[attribute]} (length #{object[attribute].length}) " +
+      "should be on the boundary of validity"
+  end
+
+  # Create an attribute that is just barely invalid.
+  def barely_invalid_string(boundary, length, valid_char)
+    if boundary == :max
+      invalid_length = length + 1
+    elsif
+      invalid_length = length - 1
+    else 
+      raise ArgumentError, "boundary must be :max or :min"
+    end
+    valid_char * invalid_length
+  end
+  
+  # Return the correct error message for the length test.
+  def correct_error_message(boundary, length)
+      if boundary == :max
+        I18n.t "activerecord.errors.messages.too_long", :count => length
+      elsif boundary == :min
+        I18n.t "activerecord.errors.messages.too_short", :count => length
+      else
+        raise ArgumentError, "boundary must be :max or :min"
+      end
+  end
 
 end

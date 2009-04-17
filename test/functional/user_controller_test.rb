@@ -219,6 +219,24 @@ class UserControllerTest < ActionController::TestCase
     user = { :screen_name => "new_screen_name", :password => "long_enough_password", :email => "valid@example.com" }
     friendly_url_forwarding_aux(:register, :index, user)
   end
+
+  # Test the edit page
+  def test_edit_page
+    authorize @valid_user
+    get :edit
+    title = assigns(:title)
+    assert_equal "Edit basic info", title
+    assert_response :success
+    assert_template "edit"
+    # Test the form and all its tags.
+    assert_form_tag "/user/edit"
+    assert_email_field @valid_user.email
+    assert_password_field "current_password"
+    assert_password_field
+    assert_password_field "password_confirmation"
+    assert_submit_button "Update"
+  end
+
   
   # Replace this with your real tests.
   test "the truth" do

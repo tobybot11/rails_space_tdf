@@ -161,6 +161,17 @@ class UserTest < ActiveSupport::TestCase
       assert !user.valid?, "#{screen_name} shouldn't pass validation, but does"
     end
   end
+
+  def test_screen_name_length_boundaries
+    assert_length :min, @valid_user, :screen_name, User::SCREEN_NAME_MIN_LENGTH
+    assert_length :max, @valid_user, :screen_name, User::SCREEN_NAME_MAX_LENGTH
+  end
+  
+  def test_password_length_boundaries
+    assert_length :min, @valid_user, :password, User::PASSWORD_MIN_LENGTH
+    assert_length :max, @valid_user, :password, User::PASSWORD_MAX_LENGTH
+  end
+  
   
   test "the truth" do
     assert true
