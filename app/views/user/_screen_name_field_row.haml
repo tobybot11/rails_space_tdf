@@ -1,0 +1,3 @@
+.form_row
+  %label{ 'for' => "screen_name"} Screen name:
+  = form.text_field :screen_name, :size => User::SCREEN_NAME_SIZE, :maxlength => User::SCREEN_NAME_MAX_LENGTH

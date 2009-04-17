@@ -5,9 +5,7 @@
   %fieldset
     %legend Email
     = hidden_field_tag "attribute", "email", :id => nil
-    .form_row
-      %label{ 'for' => "email"} Email:
-      = form.text_field :email, :size => User::EMAIL_SIZE, :maxlength => User::EMAIL_MAX_LENGTH
+    = render :partial => "email_field_row", :locals => { :form => form }
       
     .form_row
       =submit_tag "Update", :class=> "submit"
@@ -16,17 +14,13 @@
   %fieldset
     %legend Password
     = hidden_field_tag "attribute", "password", :id => nil
-    .form_row
-      %label{ 'for' => "current_password"} Current password:
-      = form.password_field :current_password, :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH
+
+    = render :partial => "password_field_row", :locals => { :form => form, :field => "current_password", :field_title => "Current Password:"}
+
+    = render :partial => "password_field_row", :locals => { :form => form, :field => "password", :field_title => "New password:"}
     
-    .form_row
-      %label{ 'for' => "password"} New password:
-      = form.password_field :password, :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH
-      
-    .form_row
-      %label{ 'for' => "password_confirmation"} Confirm:
-      = form.password_field :password_confirmation, :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH
+    = render :partial => "password_field_row", :locals => { :form => form, :field => "password_confirmation", :field_title => "Confirm:"}
+    
               
     .form_row
       =submit_tag "Update", :class=> "submit"

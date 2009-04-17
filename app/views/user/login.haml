@@ -3,15 +3,10 @@
   %fieldset
     %legend Enter Your Details
     
-    .form_row
-      %label{ 'for' => "screen_name"} Screen name:
-      = form.text_field :screen_name, :size => User::SCREEN_NAME_SIZE, :maxlength => User::SCREEN_NAME_MAX_LENGTH
-      %br/
+    = render :partial => "screen_name_field_row", :locals => { :form => form }
+    %br/
         
-    .form_row
-      %label{ 'for' => "password"} Password:
-      = form.password_field :password, :size => User::PASSWORD_SIZE, :maxlength => User::PASSWORD_MAX_LENGTH
-      %br/
+    = render :partial => "password_field_row", :locals => { :form => form, :field => "password", :field_title => "Password:" }
     
     .form_row
       %label{ 'for' => "remember_me", } Remember Me?

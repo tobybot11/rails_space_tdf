@@ -29,6 +29,7 @@ class UserControllerTest < ActionController::TestCase
     assert_screen_name_field
     assert_email_field
     assert_password_field
+    assert_password_field "password_confirmation"
     assert_submit_button "Register!"
   end
   
